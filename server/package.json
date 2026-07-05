@@ -1,0 +1,24 @@
+{
+  "name": "adulting-os-server",
+  "version": "1.0.0",
+  "description": "Backend for Adulting OS",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.10.0",
+    "@supabase/supabase-js": "^2.108.2",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

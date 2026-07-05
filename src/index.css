@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #FDF8F3;
+  color: #2D2D2D;
+}
+/* Hero illustration blend */
+
+.hero-image {
+
+  mask-image: radial-gradient(
+      ellipse at center,
+      black 72%,
+      transparent 100%
+  );
+
+  -webkit-mask-image: radial-gradient(
+      ellipse at center,
+      black 72%,
+      transparent 100%
+  );
+
+}

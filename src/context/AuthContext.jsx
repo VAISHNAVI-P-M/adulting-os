@@ -12,7 +12,11 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token');
     if (token) {
       api.get('/auth/me')
-        .then(res => setUser(res.data.user))
+        .then(res => {
+        console.log('User from /me:', res.data.user) // ← add this
+        setUser(res.data.user)
+      })
+
         .catch(() => localStorage.removeItem('token'))
         .finally(() => setLoading(false));
     } else {
@@ -21,11 +25,18 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const res = await api.post('/auth/login', { email, password });
-    localStorage.setItem('token', res.data.token);
-    setUser(res.data.user);
-    return res.data; // includes onboardingComplete
+  const res = await api.post('/auth/login', { email, password });
+  localStorage.setItem('token', res.data.token);
+  
+  // Fetch full profile including age
+  const profileRes = await api.get('/auth/me');
+  setUser(profileRes.data.user);
+  
+  return { 
+    ...res.data, 
+    onboardingComplete: !!profileRes.data.user.age 
   };
+};
 
   const register = async (email, password, full_name) => {
     const res = await api.post('/auth/register', { email, password, full_name });

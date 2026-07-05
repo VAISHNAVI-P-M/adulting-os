@@ -101,16 +101,11 @@ export const login = async (req, res) => {
 // GET /api/auth/me
 export const me = async (req, res) => {
   const { data: user, error } = await supabase
-    .from("profiles")
-    .select(
-      "id, email, full_name, age, occupation, monthly_salary, current_savings, goals, life_readiness_score, current_level"
-    )
-    .eq("id", req.user.id)
-    .single();
+    .from('profiles')
+    .select('id, email, full_name, age, occupation, monthly_salary, current_savings, goals, life_readiness_score, current_level')
+    .eq('id', req.user.id)
+    .single()
 
-  if (error) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  res.json({ user });
-};
+  if (error) return res.status(404).json({ error: 'User not found' })
+  res.json({ user })
+}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
 import { generateRoadmap, getRoadmap } from '../services/roadmapService'
 import toast from 'react-hot-toast'
@@ -22,12 +23,12 @@ const priorityBadge = {
 }
 
 export default function RoadmapPage() {
+  const navigate = useNavigate()   // ← must be INSIDE the component
   const [roadmap, setRoadmap]         = useState(null)
   const [loading, setLoading]         = useState(true)
   const [generating, setGenerating]   = useState(false)
   const [expandedLevel, setExpanded]  = useState(null)
 
-  // On page load — check if roadmap exists
   useEffect(() => {
     fetchRoadmap()
   }, [])
@@ -37,7 +38,6 @@ export default function RoadmapPage() {
       const res = await getRoadmap()
       setRoadmap(res.data.roadmap)
     } catch {
-      // No roadmap yet — that's fine
       setRoadmap(null)
     } finally {
       setLoading(false)
@@ -63,9 +63,10 @@ export default function RoadmapPage() {
     <div className="min-h-screen bg-cream">
       <Navbar />
 
-      <div className="max-w-3xl mx-auto px-6 py-12">
+     
 
-        {/* Header */}
+      <div className="max-w-3xl mx-auto px-6 py-8">
+
         <div className="mb-10">
           <p className="text-xs text-sage uppercase tracking-widest font-medium mb-2">
             Your Roadmap
@@ -78,7 +79,6 @@ export default function RoadmapPage() {
           </p>
         </div>
 
-        {/* Loading state */}
         {loading && (
           <div className="text-center py-20">
             <div className="text-4xl mb-4">🌱</div>
@@ -86,7 +86,6 @@ export default function RoadmapPage() {
           </div>
         )}
 
-        {/* No roadmap yet */}
         {!loading && !roadmap && (
           <div className="bg-white border border-forest/10 rounded-3xl p-12 text-center">
             <div className="text-5xl mb-6">🗺️</div>
@@ -106,10 +105,8 @@ export default function RoadmapPage() {
           </div>
         )}
 
-        {/* Roadmap levels */}
         {!loading && roadmap && (
           <>
-            {/* Regenerate button */}
             <div className="flex justify-end mb-6">
               <button
                 onClick={handleGenerate}
@@ -120,24 +117,19 @@ export default function RoadmapPage() {
               </button>
             </div>
 
-            {/* Level cards */}
             <div className="flex flex-col gap-4">
               {levels.map((level, index) => (
                 <div
                   key={level.level}
                   className="bg-white border border-forest/10 rounded-2xl overflow-hidden"
                 >
-                  {/* Level row */}
                   <button
                     onClick={() => setExpanded(expandedLevel === index ? null : index)}
                     className="w-full flex items-center gap-4 p-5 text-left hover:bg-forest/[0.02] transition"
                   >
-                    {/* Level number */}
                     <div className="w-10 h-10 bg-forest rounded-full flex items-center justify-center text-cream text-sm font-medium flex-shrink-0">
                       {level.level}
                     </div>
-
-                    {/* Title + category */}
                     <div className="flex-1">
                       <div className="text-sm font-medium text-forest mb-1">
                         {level.title}
@@ -154,18 +146,14 @@ export default function RoadmapPage() {
                         </span>
                       </div>
                     </div>
-
-                    {/* Expand arrow */}
                     <div className={`text-ink/30 transition-transform ${expandedLevel === index ? 'rotate-180' : ''}`}>
                       ▾
                     </div>
                   </button>
 
-                  {/* Expanded details */}
                   {expandedLevel === index && (
                     <div className="px-5 pb-5 border-t border-forest/5">
                       <div className="pt-4 grid gap-4">
-
                         <div>
                           <p className="text-xs text-ink/40 font-medium uppercase tracking-wider mb-1.5">
                             Why this matters
@@ -174,7 +162,6 @@ export default function RoadmapPage() {
                             {level.why}
                           </p>
                         </div>
-
                         <div>
                           <p className="text-xs text-ink/40 font-medium uppercase tracking-wider mb-1.5">
                             How to do it
@@ -183,7 +170,6 @@ export default function RoadmapPage() {
                             {level.how}
                           </p>
                         </div>
-
                       </div>
                     </div>
                   )}
@@ -191,7 +177,6 @@ export default function RoadmapPage() {
               ))}
             </div>
 
-            {/* Bottom message */}
             <div className="text-center mt-10">
               <p className="text-sm text-ink/40">
                 🌱 Complete each level to increase your Life Readiness Score

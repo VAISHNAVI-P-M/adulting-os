@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom'
 export default function Hero() {
+  const navigate = useNavigate()
   return (
     <section className="max-w-7xl mx-auto px-6 py-20">
 
@@ -34,13 +36,18 @@ export default function Hero() {
 
           <div className="flex flex-wrap gap-4 mb-8">
 
-            <button className="bg-forest text-cream px-7 py-3.5 rounded-full text-sm font-medium hover:bg-forest/90 transition">
-              Start My Journey
-            </button>
-
-            <button className="bg-lavender text-forest px-7 py-3.5 rounded-full text-sm font-medium hover:bg-lavender/80 transition">
-              ✨ Ask Life Coach AI
-            </button>
+            <button
+  onClick={() => navigate('/roadmap')}
+  className="bg-forest text-cream px-7 py-3.5 rounded-full text-sm font-medium hover:bg-forest/90 transition"
+>
+  Start My Journey
+</button>
+            <button
+  onClick={() => navigate('/chat')}
+  className="bg-lavender text-forest px-7 py-3.5 rounded-full text-sm font-medium hover:bg-lavender/80 transition"
+>
+  ✨ Ask Life Coach AI
+</button>
 
           </div>
 

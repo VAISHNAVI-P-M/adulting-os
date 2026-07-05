@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import Navbar from '../components/layout/Navbar'
 import { sendMessage, getHistory } from '../services/chatService'
 import toast from 'react-hot-toast'
@@ -8,10 +9,9 @@ const PROMPT_CHIPS = [
   'Can I afford a bike on my salary?',
   'How much should I save monthly?',
   'Do I need health insurance right now?',
-  'Should I invest or build emergency fund first?',
-  'How do I file my first ITR?',
-  'How much rent can I afford?',
+  'Should I invest in SIP or FD?',
 ]
+// ... keep PROMPT_CHIPS the same ...
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([])
@@ -19,14 +19,23 @@ export default function ChatPage() {
   const [loading, setLoading]   = useState(false)
   const [fetching, setFetching] = useState(true)
   const bottomRef               = useRef(null)
+  const [searchParams]          = useSearchParams()
 
   useEffect(() => {
     getHistory()
-      .then(res => setMessages(res.data.messages))
+      .then(res => {
+        setMessages(res.data.messages)
+        // If a topic was passed from Learn page — auto send it
+        const topic = searchParams.get('topic')
+        if (topic && res.data.messages.length === 0) {
+          setTimeout(() => handleSend(`Explain this to me in simple terms: ${topic}`), 500)
+        }
+      })
       .catch(() => {})
       .finally(() => setFetching(false))
   }, [])
 
+  // ... rest stays the same
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])

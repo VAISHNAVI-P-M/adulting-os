@@ -16,12 +16,11 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
-      "https://adulting-os.vercel.app",  // add this after Vercel deploy
+      /\.vercel\.app$/,
     ],
     credentials: true,
   })
-);
-
+)
 app.use(express.json());
 
 // Routes

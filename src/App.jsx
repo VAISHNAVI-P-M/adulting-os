@@ -53,7 +53,9 @@ export default function App() {
         <Route path="/learn"   element={<LearnPage />} />
 <Route path="/tracker" element={<TrackerPage />} />
 
-       <Route path="/profile" element={<ProfilePage />} />
+       <Route path="/profile" element={
+  <ProtectedRoute><ProfilePage /></ProtectedRoute>
+} />
       </Routes>
     </BrowserRouter>
   );
